@@ -21,8 +21,11 @@
 </head>
 
 <body>
-    <?php include 'Partials/_dbconnect.php'; ?>
-    <?php include 'Partials/_headers.php'; ?>
+    <?php
+    include 'Partials/_dbconnect.php';
+    include 'Partials/_headers.php';
+    ?>
+
     <?php
     $id = $_GET['catid'];
     $sql = "SELECT * FROM `categories` WHERE category_id=$id ";
@@ -77,9 +80,14 @@
             </p>
         </div>
     </div>
+    <?php
+
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+
+        echo '
     <div class="container">
-        <h1 class="my-2">Start a talk</h1>
-        <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="post">
+        <h1 class="my-2">Start a Talk</h1>
+        <form action="' . $_SERVER["REQUEST_URI"] . '" method="post">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Problem Title</label>
                 <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
@@ -96,6 +104,12 @@
             <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
+';
+    } else {
+        echo '<div class = "container"><h1 class="my-2">Start a Talk</h1>
+        <p class = "lead"><b>You are not logged in. Please login to start a Talk.</b></p></div>';
+    }
+    ?>
 
     <div class="container" id="ques">
         <h1 class="my-2">Browse Questions</h1>
@@ -109,6 +123,7 @@
             $tid = $row['thread_id'];
             $title = $row['thread_title'];
             $desc = $row['thread_description'];
+            $thread_time = $row['thread_time'];
 
             echo ' <div class="media my-3">
             <!-- <div class="flex-shrink-0"> -->
@@ -117,21 +132,24 @@
 
             <!-- </div> -->
             <div class="media-body">
-                <h5 class="mt-0"><a class = "text-dark" href = "thread.php?threadid=' . $tid . '">' . $title . '</a></h5>
-               ' . $desc . '
-            </div>
-        </div>';
+    <p class=" my-0"><b>Anonymous user</b>  on ' . date('F j, Y h:i A', strtotime($thread_time)) . ' </p>
+    <h5 class="mt-0"><a class="text-dark" href="thread.php?threadid=' . $id . '">' . $title . '</a></h5>
+    <?php echo $desc; ?>
+    </div>
 
-        }
-        if ($noresult) {
-            echo '<div class="jumbotron jumbotron-fluid">
+
+    </div>';
+
+    }
+    if ($noresult) {
+    echo '<div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <p class="display-4">No Talks Found</p>
-          <p class="lead">Be the first person to ask a question.</p>
+            <p class="display-4">No Talks Found</p>
+            <p class="lead">Be the first person to ask a question.</p>
         </div>
-      </div>';
-        }
-        ?>
+    </div>';
+    }
+    ?>
 
 
     </div>
@@ -139,15 +157,18 @@
     <?php include 'Partials/_footer.php'; ?>
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
-    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+    -->
 </body>
 
 </html>

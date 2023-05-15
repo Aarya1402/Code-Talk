@@ -21,8 +21,11 @@
 </head>
 
 <body>
-    <?php include 'Partials/_dbconnect.php'; ?>
-    <?php include 'Partials/_headers.php'; ?>
+<?php 
+include 'Partials/_dbconnect.php'; 
+include 'Partials/_headers.php'; 
+?>
+
     <?php
     $id = $_GET['threadid'];
     $sql = "SELECT * FROM `threads` WHERE thread_id=$id ";
@@ -31,6 +34,29 @@
         $title = $row['thread_title'];
         $desc = $row['thread_description'];
     }
+    ?>
+
+    <?php
+    $showalert = false;
+    $method = $_SERVER['REQUEST_METHOD'];
+    // echo $method;
+    if ($method == 'POST') {
+
+        // Insert comment into db
+        $comment = $_POST['comment'];
+
+        $sql = "INSERT INTO `comments` (`comment_id`, `comment_content`, `thread_id`, `comment_time`, `commment_by`) VALUES (NULL, '$comment', '$id', current_timestamp(), '0');";
+        $result = mysqli_query($conn, $sql);
+        $showalert = true;
+        if ($showalert) {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success! </strong>Your comment has been added successfully!!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>';
+        }
+    }
+
+
     ?>
     <!-- categories container starts here -->
     <div class="container my-4">
@@ -47,15 +73,17 @@
                 questions. Remain respectful of other members at all times.</p>
 
             <p class="lead">
-                <b>Posted By: Harry</b>
+                Posted By:<b> Harry</b>
             </p>
         </div>
     </div>
-
+<?php
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+echo '
     <div class="container">
         <h1 class="my-4">Post a Comment</h1>
-        <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="post">
-        
+        <form action="'.$_SERVER["REQUEST_URI"].' " method="post">
+
             <div class="mb-3">
 
                 <label for="exampleForControlTextarea1">Type your Comment</label>
@@ -66,33 +94,20 @@
 
             <button type="submit" class="btn btn-success">Post Comment</button>
         </form>
-    </div>
-    <?php
-    $showalert = false;
-    $method = $_SERVER['REQUEST_METHOD'];
-    // echo $method;
-    if ($method == 'POST') {
-
-        // Insert thread into db
-        $th_title = $_POST['title'];
-        $th_desc = $_POST['desc'];
-        $sql = "INSERT INTO `threads` (`thread_id`, `thread_title`, `thread_description`, `thread_cat_id`, `thread_user_id`, `thread_time`) VALUES (NULL, '$th_title', '$th_desc', '$id', '0', current_timestamp())";
-        $result = mysqli_query($conn, $sql);
-        $showalert = true;
-        if ($showalert) {
-            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success! </strong>Your Talk has been added successfully.Please wait for community to respond.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>';
-        }
+    </div>';
+}
+    else 
+    {
+        echo '<div class = "container"><h1 class="my-2">Post a Comment</h1>
+        <p class = "lead"><b>You are not logged in. Please login to post Comment.</b></p></div>';
     }
+?>
 
 
-    ?>
 
     <div class="container" id="ques">
         <h1 class="my-2">Discussion</h1>
-         <?php
+        <?php
         $id = $_GET['threadid'];
         $sql = "SELECT * FROM `comments` WHERE thread_id=$id ";
         $result = mysqli_query($conn, $sql);
@@ -101,7 +116,7 @@
             $noresult = false;
             $id = $row['comment_id'];
             $content = $row['comment_content'];
-           
+            $comment_time=$row['comment_time'];
 
             echo ' <div class="media my-3">
             <!-- <div class="flex-shrink-0"> -->
@@ -110,35 +125,40 @@
 
         <!-- </div> -->
         <div class="media-body">
+        <p class="my-0"><b>Anonymous user</b> on '.date('F j, Y', strtotime($comment_time)).'</p>
            
             ' . $content . '
         </div>
     </div>';
 
-    }
-    if ($noresult) {
-    echo '<div class="jumbotron jumbotron-fluid">
+        }
+        if ($noresult) {
+            echo '<div class="jumbotron jumbotron-fluid">
         <div class="container">
             <p class="display-4">No Talks Found</p>
             <p class="lead">Be the first person to ask a question.</p>
         </div>
     </div>';
-    }
-    ?> 
+        }
+        ?>
     </div>
 
     <?php include 'Partials/_footer.php'; ?>
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
-    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+    -->
 </body>
 
 </html>
