@@ -2,6 +2,8 @@
 $showError = "false";
 if($_SERVER['REQUEST_METHOD']=="POST"){
     include '_dbconnect.php';
+    if(isset($_POST['signupEmail']) && !empty($_POST['signupEmail']) && isset($_POST['signupPassword']) && !empty($_POST['signupcPassword']) && isset($_POST['signupcPassword']) && !empty($_POST['signupPassword']) )
+    {
     $user_email=$_POST['signupEmail'];
     $pass=$_POST['signupPassword'];
     $cpass=$_POST['signupcPassword'];
@@ -29,6 +31,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             
         }
     }
+}
     header("Location: /PHP project/index.php?signupsuccess=false&error=$showError");
 }
 

@@ -44,11 +44,15 @@
     $method = $_SERVER['REQUEST_METHOD'];
     // echo $method;
     if ($method == 'POST') {
-
+        if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['desc']) && !empty($_POST['desc']) )
+        {
         // Insert thread into db
         $th_title = $_POST['title'];
         $th_desc = $_POST['desc'];
-        $sql = "INSERT INTO `threads` (`thread_id`, `thread_title`, `thread_description`, `thread_cat_id`, `thread_user_id`, `thread_time`) VALUES (NULL, '$th_title', '$th_desc', '$id', '0', current_timestamp())";
+        $th_desc = str_replace("<","&lt;",$th_desc);
+        $th_desc = str_replace(">","&gt;",$th_desc);
+        $user_id = $_POST['user_id'];
+        $sql = "INSERT INTO `threads` (`thread_id`, `thread_title`, `thread_description`, `thread_cat_id`, `thread_user_id`, `thread_time`) VALUES (NULL, '$th_title', '$th_desc', '$id', '$user_id', current_timestamp())";
         $result = mysqli_query($conn, $sql);
         $showalert = true;
         if ($showalert) {
@@ -59,7 +63,7 @@
         }
     }
 
-
+    }
     ?>
 
     <!-- categories container starts here -->
@@ -98,6 +102,7 @@
                 <label for="exampleForControlTextarea1">Ellaborate your concerns</label>
 
                 <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+                <input type="hidden" name="user_id" value= " ' . $_SESSION['user_id'] . '">
 
             </div>
 
@@ -120,10 +125,14 @@
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             $noresult = false;
-            $tid = $row['thread_id'];
+            $id = $row['thread_id'];
             $title = $row['thread_title'];
             $desc = $row['thread_description'];
             $thread_time = $row['thread_time'];
+            $thread_user_id = $row['thread_user_id'];
+            $sql2 = "SELECT user_email FROM `users` WHERE user_id = '$thread_user_id'";
+            $result2 = mysqli_query($conn, $sql2);
+            $row2 = mysqli_fetch_assoc($result2);
 
             echo ' <div class="media my-3">
             <!-- <div class="flex-shrink-0"> -->
@@ -132,7 +141,7 @@
 
             <!-- </div> -->
             <div class="media-body">
-    <p class=" my-0"><b>Anonymous user</b>  on ' . date('F j, Y h:i A', strtotime($thread_time)) . ' </p>
+    <p class=" my-0"><b>' . $row2['user_email'] . '</b>  on ' . date('F j, Y h:i A', strtotime($thread_time)) . ' </p>
     <h5 class="mt-0"><a class="text-dark" href="thread.php?threadid=' . $id . '">' . $title . '</a></h5>
     <?php echo $desc; ?>
     </div>
