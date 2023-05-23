@@ -147,7 +147,7 @@
             echo '<div class="jumbotron jumbotron-fluid">
         <div class="container">
             <p class="display-4">No Comments Found</p>
-            <p class="lead">Be the first person to ask a question.</p>
+            <p class="lead">Be the first person to add a comment.</p>
         </div>
     </div>';
         }

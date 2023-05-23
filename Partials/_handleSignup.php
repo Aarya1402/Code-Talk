@@ -5,6 +5,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     if(isset($_POST['signupEmail']) && !empty($_POST['signupEmail']) && isset($_POST['signupPassword']) && !empty($_POST['signupcPassword']) && isset($_POST['signupcPassword']) && !empty($_POST['signupPassword']) )
     {
     $user_email=$_POST['signupEmail'];
+    $user_email = filter_input(INPUT_POST, $user_email, FILTER_SANITIZE_STRING);
     $pass=$_POST['signupPassword'];
     $cpass=$_POST['signupcPassword'];
 

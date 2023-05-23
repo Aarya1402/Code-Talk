@@ -4,6 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     include "_dbconnect.php";
     // if (isset($_POST['loginEmail']) && !empty($_POST['loginEmail']) && isset($_POST['loginpass']) && !empty($_POST['loginpass'])) {
         $email = $_POST['loginEmail'];
+        $email = filter_input(INPUT_POST, $email, FILTER_SANITIZE_STRING);
         $pass = $_POST['loginPass'];
 
         $sql = "SELECT * FROM `users` WHERE user_email = '$email'";
