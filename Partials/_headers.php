@@ -17,7 +17,7 @@ echo '
                 <a class="nav-link active" aria-current="page" href="/PHP project">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/PHP project/about.php">About</a>
+                <a class="nav-link" href="/PHP project/profile.php">Profile</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -28,7 +28,7 @@ echo '
 $sql = "SELECT category_name,category_id FROM `categories` LIMIT 5";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($result)) {
-    echo '<li><a class="dropdown-item" href="threadlist.php?catid='.$row['category_id'].'">' . $row['category_name'] . '</a></li>';
+    echo '<li><a class="dropdown-item" href="threadlist.php?catid=' . $row['category_id'] . '">' . $row['category_name'] . '</a></li>';
 
 }
 
@@ -74,7 +74,28 @@ include 'Partials/_signupModal.php';
 
 if (isset($_GET['signupsuccess']) && $_GET['signupsuccess'] == "true") {
     echo '<div class="alert alert-success alert-dismissible fade show my-0" role="alert">
-    <strong>Success! </strong>You can now login.
+    <strong>Success! </strong> Now you can login
+   
+  </div>';
+}
+
+if (isset($_GET['signupsuccess']) && $_GET['signupsuccess'] == "false") {
+    echo '<div class="alert alert-danger alert-dismissible fade show my-0" role="alert">
+    <strong>Warning! </strong> ' . $_GET['error'] . '
+   
+  </div>';
+}
+
+if (isset($_GET['loginsuccess']) && $_GET['loginsuccess'] == "true") {
+    echo '<div class="alert alert-success alert-dismissible fade show my-0" role="alert">
+    <strong>Success! </strong> You have logged in successfully.
+   
+  </div>';
+}
+
+if (isset($_GET['loginsuccess']) && $_GET['loginsuccess'] == "false") {
+    echo '<div class="alert alert-danger alert-dismissible fade show my-0" role="alert">
+    <strong>Warning! </strong> ' . $_GET['error'] . '
    
   </div>';
 }
