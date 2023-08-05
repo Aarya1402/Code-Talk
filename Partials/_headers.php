@@ -5,7 +5,7 @@ echo '
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <div class="container-fluid">
-    <a class="navbar-brand" href="/PHP project">Code Talk</a>
+    <a class="navbar-brand" href="/Code-Talk">Code Talk</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation">
@@ -14,10 +14,10 @@ echo '
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/PHP project">Home</a>
+                <a class="nav-link active" aria-current="page" href="/Code-Talk">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/PHP project/profile.php">Profile</a>
+                <a class="nav-link" href="/Code-Talk/profile.php">Profile</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -43,7 +43,7 @@ echo '
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 
     echo '
-        <form class="d-flex" role="search">
+        <form class="d-flex" action = "search.php" method = "get" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-success mx-2" type="submit">Search</button>
             <p class ="text-light my-0 mx-2">Welcome ' . $_SESSION['useremail'] . '</p>
@@ -55,8 +55,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 } else {
 
     echo '
-        <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="d-flex" action = "search.php" method = "get" role="search">
+        <input class="form-control me-2" type="search" name = "search" placeholder="Search" aria-label="Search">
         <button class="btn btn-success mx-2" type="submit">Search</button></form>
         <div class="mx-2">
     <button class="btn btn-outline-success ml-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>

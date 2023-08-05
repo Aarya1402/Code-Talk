@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
                     $showAlert = true;
-                    header("Location: /PHP project/index.php?signupsuccess=true");
+                    header("Location: /Code-Talk/index.php?signupsuccess=true");
                     exit();
                 }
             } else {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         $showError = "Please enter the details.";
     }
-    header("Location: /PHP project/index.php?signupsuccess=false&error=$showError");
+    header("Location: /Code-Talk/index.php?signupsuccess=false&error=$showError");
 }
 
 ?>

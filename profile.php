@@ -46,7 +46,7 @@
                 $title = $row['thread_title'];
                 $desc = $row['thread_description'];
                 $thread_id = $row['thread_id'];
-                echo '<div class="details mt-2"><a class = "link-dark text-weight-bold" href="http://localhost/PHP%20project/thread.php?threadid=' . $thread_id . '">' . $title . '</a><br>' . $desc . '</div>';
+                echo '<div class="details mt-2"><a class = "link-dark text-weight-bold" href="http://localhost/Code-Talk/thread.php?threadid=' . $thread_id . '">' . $title . '</a><br>' . $desc . '</div>';
             }
             if ($noresult) {
                 echo '<div class = "details mt-2"><h5>No threads found</h5></div>';
@@ -66,7 +66,7 @@
                 $content = $row['comment_content'];
 
                 $thread_id = $row['thread_id'];
-                echo '<div class="details "><a class = "link-dark text-weight-bold" href="http://localhost/PHP%20project/thread.php?threadid=' . $thread_id . '">See other Comments</a><br>' . $content . '</div>';
+                echo '<div class="details "><a class = "link-dark text-weight-bold" href="http://localhost/Code-Talk/thread.php?threadid=' . $thread_id . '">See other Comments</a><br>' . $content . '</div>';
             }
             if ($noresult) {
                 echo '<div class = "details mt-2"><h5>No comments found</h5></div>';

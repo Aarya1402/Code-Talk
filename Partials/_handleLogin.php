@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $_SESSION['loggedin'] = true;
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['useremail'] = $email;
-                header("Location: /PHP project/index.php?loginsuccess=true");
+                header("Location: //index.php?loginsuccess=true");
                 exit();
 
             } else {
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         $showError = "Please enter the details.";
     }
-    header("Location: /PHP project/index.php?loginsuccess=false&error=$showError");
+    header("Location: /Code-Talk/index.php?loginsuccess=false&error=$showError");
 }
 
 
